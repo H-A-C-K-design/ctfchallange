@@ -1,7 +1,7 @@
 // ── Config ────────────────────────────────────────────────────────────────────
 // Update API_BASE to your deployed backend URL when hosting on Render.
 // Replace the URL below with your actual Render backend URL.
-const API_BASE = 'https://method-mayhem-api.onrender.com'; // ← replace with your actual Render backend URL
+const API_BASE = 'https://ctfchallange.onrender.com';
 
 // ── checkStatus ───────────────────────────────────────────────────────────────
 async function checkStatus() {

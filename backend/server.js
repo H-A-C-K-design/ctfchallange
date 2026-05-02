@@ -4,8 +4,19 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'X-Access-Level']
+}));
+app.options('*', cors()); // handle preflight requests
 app.use(express.json());
+
+// ─── Health check ───────────────────────────────────────────────────────────
+
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Method Mayhem API is running 🚀' });
+});
 
 // ─── Stage 1 & 2: /api/check ────────────────────────────────────────────────
 
