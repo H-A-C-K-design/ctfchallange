@@ -1,0 +1,166 @@
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:        #0d0f14;
+  --surface:   #161b27;
+  --border:    #252d3d;
+  --accent:    #4f8ef7;
+  --accent-glow: rgba(79, 142, 247, 0.35);
+  --green:     #3ddc84;
+  --red:       #ff5f5f;
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --font-mono: 'Courier New', Courier, monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 520px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+/* ── Badge ────────────────────────────────────────────────── */
+.badge {
+  background: rgba(79, 142, 247, 0.12);
+  border: 1px solid rgba(79, 142, 247, 0.3);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+}
+
+/* ── Heading ──────────────────────────────────────────────── */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #e2e8f0 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* ── Button ───────────────────────────────────────────────── */
+button#checkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  box-shadow: 0 0 0 0 var(--accent-glow);
+}
+
+button#checkBtn:hover {
+  background: #3a7de8;
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+
+button#checkBtn:active {
+  transform: scale(0.97);
+}
+
+button#checkBtn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+/* ── Response Box ─────────────────────────────────────────── */
+.response-box {
+  width: 100%;
+  background: #0a0c12;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: opacity 0.3s;
+}
+
+.response-box.hidden {
+  display: none;
+}
+
+.response-label {
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+}
+
+pre#response-output {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--green);
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+/* ── Hint Block ───────────────────────────────────────────── */
+.hint-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 200, 0, 0.06);
+  border: 1px solid rgba(255, 200, 0, 0.18);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.82rem;
+  color: #f0c040;
+  width: 100%;
+}
+
+.hint-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}

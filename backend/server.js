@@ -1,57 +1,54 @@
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// GET /verify — misleading response
-app.get('/verify', (req, res) => {
-  const { user, auth } = req.query;
+// ─── Stage 1 & 2: /api/check ────────────────────────────────────────────────
 
-  // Fake flag hidden in a comment-like response to tempt participants
+// GET → nothing here
+app.get('/api/check', (req, res) => {
   res.json({
-    status: 'ok',
-    message: "Nothing useful here 👀",
-    hint: "Maybe try a different method?",
-    // totally not a flag: FLAG{frontend_fake}
-    debug: "GET is not the way."
+    status: false,
+    message: "Nothing here 👀"
   });
 });
 
-// POST /verify — real logic
-app.post('/verify', (req, res) => {
-  const { user, auth } = req.body;
-
-  // Wrong data → fake flag
-  if (!user || !auth) {
-    return res.json({
-      status: 'fail',
-      flag: 'FLAG{try_harder_fake}',
-      message: 'Missing parameters.'
-    });
-  }
-
-  if (user !== 'admin' || auth !== 'true') {
-    return res.json({
-      status: 'fail',
-      flag: 'FLAG{not_this_one}',
-      message: 'Access denied. Wrong credentials.'
-    });
-  }
-
-  // Correct POST with user=admin&auth=true → real flag (Base64 encoded)
-  // HW{you_seeyousoon} → SFd7eW91X3NlZXlvdXNvb259
-  return res.json({
-    status: 'success',
-    message: '✅ Identity verified. Here is your reward:',
-    encoded_flag: 'SFd7eW91X3NlZXlvdXNvb259',
-    note: 'Decode the encoded_flag using Base64 to get your flag.'
+// POST → base64-encoded fake flag + real hint
+app.post('/api/check', (req, res) => {
+  const payload = "fake_flag: HW{this_is_not_real}\nreal_hint: try harder, deeper endpoint exists";
+  res.json({
+    status: true,
+    data: Buffer.from(payload).toString('base64')
   });
 });
 
-const PORT = process.env.PORT || 3000;
+// ─── Stage 4 & 5: /api/secret ───────────────────────────────────────────────
+
+app.get('/api/secret', (req, res) => {
+  const accessLevel = req.headers['x-access-level'];
+
+  if (accessLevel === 'admin') {
+    // Real flag, base64-encoded
+    res.json({
+      encoded_flag: Buffer.from("HW{method_switch_master}").toString('base64')
+    });
+  } else {
+    // Leak the hint header so players know what to change
+    res.set('X-Access-Level', 'basic');
+    res.status(403).json({ error: "Unauthorized" });
+  }
+});
+
+// ─── Catch-all 404 ──────────────────────────────────────────────────────────
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
 app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
+  console.log(`Method Mayhem API running on http://localhost:${PORT}`);
 });
